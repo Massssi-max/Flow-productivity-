@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101114">
+<title>FLOW – Productivity</title>
+<style>
+:root{--bg:#101114;--panel:#19191f;--panel2:#202027;--line:#2b2b34;--text:#f4f4f6;--muted:#92929e;--accent:#a78bfa;--accent2:#7c5ce7;--green:#7dd3a7;--orange:#ffb86b;--red:#ff7676}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer;border:0}
+.app{max-width:1200px;margin:auto;padding:24px 22px 100px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.logo{display:flex;align-items:center;gap:11px;font-size:20px;font-weight:800;letter-spacing:.08em}
+.logo-mark{height:34px;width:34px;border-radius:11px;background:linear-gradient(135deg,#bca5ff,#7857db);display:grid;place-items:center;color:#17131f;font-weight:900}
+.header-right{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}
+.avatar{width:34px;height:34px;border-radius:50%;background:#30283f;display:grid;place-items:center;color:#c7b4ff;font-weight:700}
+.tabs{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);padding:6px;border-radius:14px;margin-bottom:26px;overflow:auto}
+.tab{padding:10px 15px;border-radius:10px;background:transparent;color:var(--muted);white-space:nowrap;font-weight:600}
+.tab.active{background:var(--panel2);color:var(--text)}
+h1{font-size:28px;margin:0 0 6px;letter-spacing:-.04em}h2{font-size:18px;margin:0 0 14px}h3{font-size:15px;margin:0}
+.sub{color:var(--muted);margin:0 0 22px}
+.grid{display:grid;grid-template-columns:1.45fr 1fr;gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.stat{padding:17px;background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.stat .value{font-size:25px;font-weight:750;letter-spacing:-.04em}.stat .label{color:var(--muted);font-size:12px;margin-top:4px}
+.progress{height:8px;background:#303039;border-radius:20px;overflow:hidden}.progress>div{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:20px;transition:width .3s}
+.task{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.task:last-child{border-bottom:0}
+.check{height:20px;width:20px;border:1.5px solid #555562;border-radius:6px;background:transparent;flex-shrink:0;display:grid;place-items:center}
+.check.done{background:var(--accent2);border-color:var(--accent2);color:white}
+.task-text{flex:1}.task-text.done{text-decoration:line-through;color:var(--muted)}
+.meta{font-size:12px;color:var(--muted);margin-top:3px}
+.priority{font-size:11px;padding:4px 8px;border-radius:20px;background:#30283f;color:#c7b4ff}
+.btn{padding:10px 14px;border-radius:11px;background:var(--accent2);color:white;font-weight:650}
+.btn.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text)}
+.btn.small{padding:7px 10px;font-size:13px}
+.row{display:flex;gap:9px;align-items:center}.between{justify-content:space-between}
+.field{width:100%;padding:11px 12px;border-radius:11px;background:#121217;border:1px solid var(--line);outline:none}.field:focus{border-color:var(--accent2)}
+.form{display:grid;gap:10px;margin-bottom:16px}.form-inline{display:grid;grid-template-columns:1fr auto;gap:8px}
+.empty{padding:22px;text-align:center;color:var(--muted)}
+.meal{padding:15px;border:1px solid var(--line);border-radius:14px;margin-bottom:10px;background:#1c1c22}
+.ingredient{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.ingredient:last-child{border-bottom:0}
+.tag{padding:4px 8px;border-radius:8px;background:#282532;color:#c4b5fd;font-size:11px}
+.shopping-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.shopping-item:last-child{border-bottom:0}
+.shopping-item.checked .shopname{text-decoration:line-through;color:var(--muted)}
+.timer{text-align:center;padding:22px 10px}.clock{font-size:64px;font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.timer-mode{color:var(--muted);margin-bottom:8px}.timer-controls{display:flex;justify-content:center;gap:8px}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:16px}.day{background:var(--panel2);border-radius:10px;padding:10px 5px;text-align:center;font-size:12px;color:var(--muted)}.day .bar{height:50px;display:flex;align-items:end;margin:8px auto;width:13px;background:#303039;border-radius:9px;overflow:hidden}.day .bar span{display:block;width:100%;background:var(--accent);border-radius:9px}
+.hidden{display:none!important}
+footer{color:var(--muted);text-align:center;font-size:12px;margin-top:30px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.app{padding:16px 14px 90px}.statrow{gap:8px}.stat{padding:13px}.tabs{position:sticky;top:8px;z-index:5}.clock{font-size:54px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="logo"><div class="logo-mark">F</div>FLOW</div><div class="header-right"><span id="date"></span><div class="avatar">F</div></div></header>
+<nav class="tabs">
+<button class="tab active" data-page="home">⌂ Home</button><button class="tab" data-page="tasks">✓ To-dos</button><button class="tab" data-page="meals">♨ Meal Prep</button><button class="tab" data-page="shopping">🛒 Einkauf</button><button class="tab" data-page="focus">◷ Fokus</button><button class="tab" data-page="stats">▥ Statistik</button>
+</nav>
+<main>
+<section id="home" class="page">
+<h1 id="greeting">Guten Morgen.</h1><p class="sub">Mach heute einen Schritt nach dem anderen.</p>
+<div class="statrow"><div class="stat"><div class="value" id="taskstat">0/0</div><div class="label">Aufgaben erledigt</div></div><div class="stat"><div class="value" id="mealstat">0</div><div class="label">Meal Preps geplant</div></div><div class="stat"><div class="value" id="shopstat">0</div><div class="label">Einkäufe offen</div></div></div>
+<div class="card" style="margin-bottom:18px"><div class="card-head"><h2>Dein Tagesfortschritt</h2><strong id="percent">0%</strong></div><div class="progress"><div id="daybar" style="width:0%"></div></div></div>
+<div class="grid"><div class="card"><div class="card-head"><h2>Heute</h2><button class="btn small" onclick="showPage('tasks')">+ Aufgabe</button></div><div id="homeTasks"></div></div><div class="card"><div class="card-head"><h2>Meal Prep diese Woche</h2><button class="btn secondary small" onclick="showPage('meals')">Planen</button></div><div id="homeMeals"></div><div style="margin-top:15px"><button class="btn secondary" onclick="showPage('shopping')">Einkaufsliste ansehen →</button></div></div></div>
+</section>
+<section id="tasks" class="page hidden"><h1>To-dos</h1><p class="sub">Alles im Blick. Schritt für Schritt.</p><div class="card"><form id="taskform" class="form"><div class="form-inline"><input class="field" id="taskname" placeholder="Neue Aufgabe…" required><button class="btn">Hinzufügen</button></div><div class="row"><select class="field" id="taskcat"><option>Allgemein</option><option>Schule</option><option>Privat</option><option>Fitness</option><option>Einkauf</option></select><select class="field" id="priority"><option value="Normal">Normal</option><option value="Wichtig">Wichtig</option><option value="Dringend">Dringend</option></select></div></form><div id="tasklist"></div></div></section>
+<section id="meals" class="page hidden"><h1>Meal Prep</h1><p class="sub">Rezepte planen – Zutaten automatisch sammeln.</p><div class="grid"><div class="card"><h2>Neues Meal Prep</h2><form id="mealform" class="form"><input class="field" id="mealname" placeholder="Gericht, z. B. Pasta mit Gemüse" required><div class="row"><input class="field" id="portions" type="number" min="1" value="3" placeholder="Portionen"><input class="field" id="mealday" type="text" placeholder="Tag (z. B. Sonntag)"></div><textarea class="field" id="ingredients" rows="4" placeholder="Zutaten – eine pro Zeile&#10;300 g Nudeln&#10;2 Tomaten&#10;1 Zwiebel" required></textarea><textarea class="field" id="instructions" rows="3" placeholder="Zubereitung (optional)"></textarea><button class="btn">Meal Prep speichern & Zutaten hinzufügen</button></form><p class="meta">Tipp: Schreibe Mengen am Anfang der Zeile. Zutaten mit gleichem Namen werden in der Einkaufsliste zusammengefasst, wenn sie gleich geschrieben sind.</p></div><div class="card"><h2>Deine geplanten Gerichte</h2><div id="meallist"></div></div></div></section>
+<section id="shopping" class="page hidden"><h1>Einkaufsliste</h1><p class="sub">Automatisch aus deinen Meal-Preps zusammengestellt.</p><div class="card"><div class="card-head"><h2 id="shopheading">Deine Zutaten</h2><button class="btn secondary small" onclick="clearChecked()">Erledigte entfernen</button></div><form id="shopform" class="form-inline" style="margin-bottom:16px"><input class="field" id="manualitem" placeholder="Produkt manuell hinzufügen…"><button class="btn">+</button></form><div id="shoppinglist"></div></div></section>
+<section id="focus" class="page hidden"><h1>Fokus</h1><p class="sub">Eine Sache. Deine volle Aufmerksamkeit.</p><div class="card timer"><div class="timer-mode" id="timermode">Fokus-Session</div><div class="clock" id="clock">25:00</div><div class="timer-controls"><button class="btn" id="timerstart">Start</button><button class="btn secondary" id="timerreset">Reset</button></div><div style="margin-top:20px;display:flex;justify-content:center;gap:8px"><button class="btn secondary small" onclick="setTimer(25)">25 min</button><button class="btn secondary small" onclick="setTimer(15)">15 min</button><button class="btn secondary small" onclick="setTimer(5)">5 min Pause</button></div></div></section>
+<section id="stats" class="page hidden"><h1>Statistik</h1><p class="sub">Deine Woche in Überblick.</p><div class="statrow"><div class="stat"><div class="value" id="totaldone">0</div><div class="label">Erledigte Aufgaben</div></div><div class="stat"><div class="value" id="totalmeals">0</div><div class="label">Meal Preps erstellt</div></div><div class="stat"><div class="value" id="totalshop">0</div><div class="label">Einkäufe abgehakt</div></div></div><div class="card"><h2>Aufgaben der Woche</h2><div class="week" id="weekchart"></div></div></section>
+</main><footer>FLOW · Deine persönliche Produktivitätszentrale · Daten bleiben auf diesem Gerät</footer>
+</div>
+<script>
+const KEY="flow_v1_data";
+let data=JSON.parse(localStorage.getItem(KEY)||'{"tasks":[],"meals":[],"shopping":[]}');
+let timerSeconds=25*60,timerInterval=null,timerRunning=false;
+const save=()=>{localStorage.setItem(KEY,JSON.stringify(data));render()};
+const todayKey=()=>new Date().toISOString().slice(0,10);
+function showPage(p){document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));document.getElementById(p).classList.remove("hidden");document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.page===p));render()}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+document.getElementById("date").textContent=new Date().toLocaleDateString("de-DE",{weekday:"short",day:"numeric",month:"short"});
+let hour=new Date().getHours();document.getElementById("greeting").textContent=hour<11?"Guten Morgen.":hour<18?"Guten Tag.":"Guten Abend.";
+document.getElementById("taskform").addEventListener("submit",e=>{e.preventDefault();data.tasks.unshift({id:Date.now(),name:taskname.value.trim(),category:taskcat.value,priority:priority.value,done:false,date:todayKey()});taskname.value="";save()});
+document.getElementById("mealform").addEventListener("submit",e=>{e.preventDefault();let lines=ingredients.value.split("\n").map(x=>x.trim()).filter(Boolean);let meal={id:Date.now(),name:mealname.value.trim(),portions:Math.max(1,+portions.value||1),day:mealday.value.trim(),ingredients:lines,instructions:instructions.value.trim()};data.meals.unshift(meal);lines.forEach(line=>{let clean=line.replace(/^\s*[-•]\s*/,"");let name=clean.replace(/^[\d.,]+\s*(?:g|kg|ml|l|stück|stk|x|packung|dose)?\s*/i,"").trim()||clean;let existing=data.shopping.find(x=>x.name.toLowerCase()===name.toLowerCase()&&!x.done);if(!existing)data.shopping.push({id:Date.now()+Math.random(),name:clean,done:false,source:meal.id})});mealname.value="";ingredients.value="";instructions.value="";save()});
+document.getElementById("shopform").addEventListener("submit",e=>{e.preventDefault();let val=manualitem.value.trim();if(val){data.shopping.push({id:Date.now(),name:val,done:false,source:null});manualitem.value="";save()}});
+function toggleTask(id){let t=data.tasks.find(x=>x.id===id);if(t)t.done=!t.done;save()}
+function deleteTask(id){data.tasks=data.tasks.filter(x=>x.id!==id);save()}
+function toggleShop(id){let s=data.shopping.find(x=>x.id===id);if(s)s.done=!s.done;save()}
+function deleteMeal(id){data.meals=data.meals.filter(x=>x.id!==id);data.shopping=data.shopping.filter(x=>x.source!==id);save()}
+function clearChecked(){data.shopping=data.shopping.filter(x=>!x.done);save()}
+function renderTasks(list,container){container.innerHTML=list.length?list.map(t=>`<div class="task"><button class="check ${t.done?'done':''}" onclick="toggleTask(${t.id})">${t.done?'✓':''}</button><div class="task-text ${t.done?'done':''}"><div>${escapeHtml(t.name)}</div><div class="meta">${escapeHtml(t.category)} · ${escapeHtml(t.priority)}</div></div><button class="btn secondary small" onclick="deleteTask(${t.id})">×</button></div>`).join(""):`<div class="empty">Noch keine Aufgaben. Füge deine erste hinzu.</div>`}
+function render(){let activeTasks=data.tasks.filter(t=>t.date===todayKey());renderTasks(activeTasks,homeTasks);renderTasks(data.tasks,tasklist);let done=activeTasks.filter(t=>t.done).length,pct=activeTasks.length?Math.round(done/activeTasks.length*100):0;taskstat.textContent=done+"/"+activeTasks.length;percent.textContent=pct+"%";daybar.style.width=pct+"%";mealstat.textContent=data.meals.length;shopstat.textContent=data.shopping.filter(x=>!x.done).length;
+homeMeals.innerHTML=data.meals.slice(0,3).map(m=>`<div class="ingredient"><span>${escapeHtml(m.name)}</span><span class="tag">${m.portions} Portionen</span></div>`).join("")||'<div class="empty">Noch keine Meal Preps geplant.</div>';
+meallist.innerHTML=data.meals.map(m=>`<div class="meal"><div class="card-head"><div><h3>${escapeHtml(m.name)}</h3><div class="meta">${m.portions} Portionen${m.day?' · '+escapeHtml(m.day):''}</div></div><button class="btn secondary small" onclick="deleteMeal(${m.id})">Entfernen</button></div><strong class="meta">Zutaten</strong>${m.ingredients.map(i=>`<div class="ingredient">${escapeHtml(i)}</div>`).join("")}${m.instructions?`<p class="meta" style="margin-top:10px">${escapeHtml(m.instructions)}</p>`:''}</div>`).join("")||'<div class="empty">Erstelle dein erstes Meal Prep links.</div>';
+let open=data.shopping.filter(x=>!x.done).length;shopheading.textContent="Deine Zutaten · "+open+" offen";
+shoppinglist.innerHTML=data.shopping.map(s=>`<div class="shopping-item ${s.done?'checked':''}"><button class="check ${s.done?'done':''}" onclick="toggleShop(${s.id})">${s.done?'✓':''}</button><span class="shopname" style="flex:1">${escapeHtml(s.name)}</span><button class="btn secondary small" onclick="data.shopping=data.shopping.filter(x=>x.id!==${s.id});save()">×</button></div>`).join("")||'<div class="empty">Deine Einkaufsliste ist leer. Plane ein Meal Prep, um Zutaten hinzuzufügen.</div>';
+totaldone.textContent=data.tasks.filter(t=>t.done).length;totalmeals.textContent=data.meals.length;totalshop.textContent=data.shopping.filter(s=>s.done).length;
+let days=["Mo","Di","Mi","Do","Fr","Sa","So"];let now=new Date(),monday=new Date(now);monday.setDate(now.getDate()-((now.getDay()+6)%7));weekchart.innerHTML=days.map((d,i)=>{let date=new Date(monday);date.setDate(monday.getDate()+i);let key=date.toISOString().slice(0,10);let tasks=data.tasks.filter(t=>t.date===key),p=tasks.length?tasks.filter(t=>t.done).length/tasks.length:0;return `<div class="day">${d}<div class="bar"><span style="height:${p*100}%"></span></div>${Math.round(p*100)}%</div>`}).join("");
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function setTimer(min){clearInterval(timerInterval);timerRunning=false;timerSeconds=min*60;timermode.textContent=min===5?"Kurze Pause":"Fokus-Session";timerstart.textContent="Start";updateClock()}
+function updateClock(){clock.textContent=String(Math.floor(timerSeconds/60)).padStart(2,"0")+":"+String(timerSeconds%60).padStart(2,"0")}
+timerstart.onclick=()=>{if(timerRunning){clearInterval(timerInterval);timerRunning=false;timerstart.textContent="Weiter"}else{timerRunning=true;timerstart.textContent="Pause";timerInterval=setInterval(()=>{timerSeconds--;updateClock();if(timerSeconds<=0){clearInterval(timerInterval);timerRunning=false;timerstart.textContent="Start";alert("Session beendet! Zeit für eine Pause.");}},1000)}};
+timerreset.onclick=()=>setTimer(25);
+render();updateClock();
+</script>
+</body>
+</html>
